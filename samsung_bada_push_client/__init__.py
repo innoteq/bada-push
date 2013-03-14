@@ -1,1 +1,1 @@
-from client import PushMessage, BadaPushError, ServerResponseError
+from client import PushMessage, BadaPushError, ParameterError, ServerResponseError
