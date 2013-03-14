@@ -6,10 +6,10 @@ except ImportError:
     from distutils.core import setup
 
 __author__ = 'Alexey Goditskiy <godickii@gmail.com>'
-__version__ = '0.1'
+__version__ = '0.2'
 
 setup(
-    name='python-mpns',
+    name='python-bada-push',
     version=__version__,
 
     # Package dependencies.
@@ -20,7 +20,7 @@ setup(
     author_email='godickii@gmail.com',
     license='BSD',
     url='https://bitbucket.org/godickii/python-samsung-bada-push-client',
-    keywords='python samsung bada push',
+    keywords='python samsung bada push messaging',
     description='Python module for push messaging service for Samsung Bada.',
     long_description=open(os.path.abspath(os.path.join(os.path.dirname(__file__), 'README.md')), 'rb').read(),
     classifiers=[
@@ -32,6 +32,6 @@ setup(
         'Topic :: Communications :: Telephony',
         'Topic :: Internet'
     ],
-    packages=['samsung_bada_push_client'],
+    packages=['bada_push'],
     platforms='any',
 )
