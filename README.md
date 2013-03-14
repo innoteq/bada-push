@@ -1,14 +1,14 @@
-python-samsung-bada-push-client
-===============================
+python-bada-push
+================
 
 Python module for push messaging service for Samsung Bada.
 
 Usage
 -----
 
-    import samsung_bada_push_client
+    import bada_push
 
-    message = samsung_bada_push_client.send(
+    message = bada_push.send(
         url='https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push',
         app_id='your-app-id',
         app_secret='your-app-secret',
@@ -25,4 +25,5 @@ Useful links
 ------------
 
 Push Messaging Guide: http://developer.bada.com/article/push-messaging-guide
+
 Error codes: http://developer.bada.com/article/push-messaging-guide#status_codes_messages
