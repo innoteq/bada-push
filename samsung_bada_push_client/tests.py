@@ -36,7 +36,7 @@ class PushClientTest(unittest.TestCase):
         post_test_spy.requests = []
         client.requests.post = post_test_spy 
 
-    def test_invalid_parameters_secret(self):
+    def test_invalid_parameters(self):
         '''
         Parameters are invalid. The rest does not matter.
         '''
