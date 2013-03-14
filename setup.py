@@ -13,7 +13,7 @@ setup(
     version=__version__,
 
     # Package dependencies.
-    install_requires=['requests'],
+    install_requires=['requests==1.1.0', 'simplejson==3.1.0'],
 
     # Metadata for PyPI.
     author='Alexey Goditskiy',

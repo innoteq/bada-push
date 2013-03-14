@@ -85,6 +85,6 @@ class PushClientTest(unittest.TestCase):
     def tearDown(self):
         client.requests.post = self.old_client_requests_post 
 
-        
+
 if __name__ == '__main__':
     unittest.main()
