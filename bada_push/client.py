@@ -2,6 +2,7 @@ import time
 import random
 import string
 import simplejson
+import warnings
 try:
     import requests
 except ImportError:
@@ -29,10 +30,21 @@ class ServerResponseError(BadaPushError):
         super(ServerResponseError, self).__init__(message)
 
 
+
+BADA_PUSH_SERVERS = { # [regid_prefix] = (Region_name, push_server_URL)
+    '00': ('US East','https://useast.push.samsungosp.com:8088/spp/pns/api/push'),
+    '01': ('US West','https://uswest.push.samsungosp.com:8088/spp/pns/api/push'),
+    '02': ('Asia Pacific Southeast','https://apsoutheast.push.samsungosp.com:8088/spp/pns/api/push'),
+    '03': ('EU West','https://uswest.push.samsungosp.com:8088/spp/pns/api/push'),
+    '04': ('Asia Pacific Northeast','https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push'),
+    '05': ('Korea','https://apkorea.push.samsungosp.com:8088/spp/pns/api/push'),
+    '06': ('China','https://apchina.push.samsungosp.com.cn:8088/spp/pns/api/push')
+}
+
 class PushMessage(object):
-    def __init__(self, url, app_id, app_secret, reg_id, app_data,
+    def __init__(self, app_id, app_secret, reg_id, app_data,
                  request_id=None, action='SILENT', alert_message=None, badge_option=None, badge_number=None,
-                 verify_ssl=True):
+                 verify_ssl=True, url=None):
         '''
         http://developer.bada.com/article/push-messaging-guide
         @param url:           The 'region' within the curly bracket in the push request URL indicates where the bada Server is located and is decided by first 2 digits of regID.
@@ -63,7 +75,14 @@ class PushMessage(object):
         @verify_ssl:          set False for get rid of Error: [Errno 1] _ssl.c:490: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed
         @raise ParameterError: on invalid parameters
         '''
-        self.url = url
+        if url:
+            warnings.warn('bada_push.PushMessage: parameter url is deprecated. Urls now hardcoded in bada_push')
+            self.url = url
+        else:
+            if reg_id[:2] in BADA_PUSH_SERVERS:
+                self.url = BADA_PUSH_SERVERS[reg_id[:2]]
+            else:
+                raise ParameterError('First 2 digits of regID (%s) incorrect. Can not find server for it.' % reg_id[:2])
         self.app_id = app_id
         self.app_secret = app_secret
         self.reg_id = reg_id

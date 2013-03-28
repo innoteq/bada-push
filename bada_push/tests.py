@@ -42,10 +42,9 @@ class PushClientTest(unittest.TestCase):
         '''
         def create_invalid_message():
             client.PushMessage(
-                url='https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push',
                 app_id='app-id',
                 app_secret=self.WRONG_SECRET,
-                reg_id='reg-id',
+                reg_id='03aa',
                 alert_message='Hello world!',
                 app_data=simplejson.dumps({'message':'Test message'}),
                 action='EATHOTDOG',
@@ -57,10 +56,9 @@ class PushClientTest(unittest.TestCase):
         Secret is wrong. send() raises RequestError.
         '''
         message = client.PushMessage(
-            url='https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push',
             app_id='app-id',
             app_secret=self.WRONG_SECRET,
-            reg_id='reg-id',
+            reg_id='03aa',
             alert_message='Hello world!',
             app_data=simplejson.dumps({'message':'Test message'}),
             verify_ssl=False
@@ -72,15 +70,30 @@ class PushClientTest(unittest.TestCase):
         Input data are valid.
         '''
         message = client.PushMessage(
-            url='https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push',
             app_id='app-id',
             app_secret=self.RIGHT_SECRET,
-            reg_id='reg-id',
+            reg_id='03aa',
             alert_message='Hello world!',
             app_data=simplejson.dumps({'message':'Test message'}),
             verify_ssl=False
         )
         self.assertEqual(message.send()['results'][0]['statusCode'], client.STATUS_CODE_SUCCESS)
+
+    def test_wrong_reg_id(self):
+        '''
+        Input data are valid.
+        '''
+        def create_invalid_message():
+            client.PushMessage(
+                app_id='app-id',
+                app_secret=self.RIGHT_SECRET,
+                reg_id='reg-id',
+                alert_message='Hello world!',
+                app_data=simplejson.dumps({'message':'Test message'}),
+                verify_ssl=False
+            )
+        self.assertRaises(client.ParameterError, create_invalid_message)
+
 
     def tearDown(self):
         client.requests.post = self.old_client_requests_post 
