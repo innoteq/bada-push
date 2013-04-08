@@ -35,7 +35,7 @@ BADA_PUSH_SERVERS = { # [regid_prefix] = (Region_name, push_server_URL)
     '00': ('US East','https://useast.push.samsungosp.com:8088/spp/pns/api/push'),
     '01': ('US West','https://uswest.push.samsungosp.com:8088/spp/pns/api/push'),
     '02': ('Asia Pacific Southeast','https://apsoutheast.push.samsungosp.com:8088/spp/pns/api/push'),
-    '03': ('EU West','https://uswest.push.samsungosp.com:8088/spp/pns/api/push'),
+    '03': ('EU West','https://euwest.push.samsungosp.com:8088/spp/pns/api/push'),
     '04': ('Asia Pacific Northeast','https://apnortheast.push.samsungosp.com:8088/spp/pns/api/push'),
     '05': ('Korea','https://apkorea.push.samsungosp.com:8088/spp/pns/api/push'),
     '06': ('China','https://apchina.push.samsungosp.com.cn:8088/spp/pns/api/push')
@@ -105,7 +105,7 @@ class PushMessage(object):
     def send(self):
         '''
         Send query to server.
-        Return response, loaded from json.
+        Return tuple (requests, response) in string.
         @raise BadaPushError: something wrong
         @raise ServerResponseError: API says that something is wrong
         @raise requests.exceptions.RequestException: any network level error
@@ -125,7 +125,8 @@ class PushMessage(object):
                 'appData':self.app_data}
 
         # get response
-        response = requests.post(self.url, data=simplejson.dumps(body), headers=headers, verify=self.verify_ssl)
+        request_serialized = simplejson.dumps(body, ensure_ascii=False)
+        response = requests.post(self.url, data=request_serialized, headers=headers, verify=self.verify_ssl)
 
         # parse response
         if not response.ok:
@@ -139,8 +140,7 @@ class PushMessage(object):
                 response_in_json['results'][0]['statusCode'],
                 '%s: %s, see http://developer.bada.com/article/push-messaging-guide#status_codes_messages for details' %\
                     (response_in_json['results'][0]['statusCode'], response_in_json['results'][0]['statusMsg']))
-        #TODO: check statusCode
-        return response_in_json
+        return request_serialized, response.content
 
 
 def send(**kwargs):

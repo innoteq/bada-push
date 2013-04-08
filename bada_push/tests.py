@@ -77,7 +77,8 @@ class PushClientTest(unittest.TestCase):
             app_data=simplejson.dumps({'message':'Test message'}),
             verify_ssl=False
         )
-        self.assertEqual(message.send()['results'][0]['statusCode'], client.STATUS_CODE_SUCCESS)
+        unserialized_response = simplejson.loads(message.send()[1])
+        self.assertEqual(unserialized_response['results'][0]['statusCode'], client.STATUS_CODE_SUCCESS)
 
     def test_wrong_reg_id(self):
         '''

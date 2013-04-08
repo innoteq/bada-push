@@ -6,7 +6,7 @@ except ImportError:
     from distutils.core import setup
 
 __author__ = 'Alexey Goditskiy <godickii@gmail.com>'
-__version__ = '0.4'
+__version__ = '0.5'
 
 setup(
     name='python-bada-push',
