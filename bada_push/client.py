@@ -80,7 +80,7 @@ class PushMessage(object):
             self.url = url
         else:
             if reg_id[:2] in BADA_PUSH_SERVERS:
-                self.url = BADA_PUSH_SERVERS[reg_id[:2]]
+                self.url = BADA_PUSH_SERVERS[reg_id[:2]][1]
             else:
                 raise ParameterError('First 2 digits of regID (%s) incorrect. Can not find server for it.' % reg_id[:2])
         self.app_id = app_id
