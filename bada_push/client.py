@@ -125,7 +125,7 @@ class PushMessage(object):
                 'appData':self.app_data}
 
         # get response
-        request_serialized = simplejson.dumps(body, ensure_ascii=False)
+        request_serialized = simplejson.dumps(body, ensure_ascii=False).encode('utf8')
         response = requests.post(self.url, data=request_serialized, headers=headers, verify=self.verify_ssl)
 
         # parse response
